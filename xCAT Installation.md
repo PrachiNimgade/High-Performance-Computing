@@ -31,143 +31,143 @@
 
          yum install epel-release
 
-yum -y install yum-utils
-
-wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo --no-check-certificate
-
-wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xcat-dep.repo --no-check-certificate
-
-yum -y install xCAT
-
-cat /etc/profile.d/xcat.sh
-
-source /etc/profile.d/xcat.sh
-
-If you want to change master ip in tab site
-
-#chdef -t site xcat=10.10.10.3 comment
-
- lsdef -t osimage 
- 
- lsblk ( If you are not able to see sr0 OS image then check
-         then check DVD is connected or not to Vmware
-
- 
- dd if=/dev/sr0 of=centos.iso
- 
- copycds centos.iso 
- 
- lsdef -t osimage
- 
- OS Path ------------>/install/centos7.9/x86_64
-
- 
- lsdef -t osimage centos7.9-x86_64-netboot-compute
- 
- genimage centos7.9-x86_64-netboot-compute
- 
- cd /install/netboot/centos7.9/x86_64/compute/
- 
- mkdir -p /install/custom/netboot
- 
- chdef -t osimage centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"
-
-lsdef -t osimage centos7.9-x86_64-netboot-compute
-
-vim /install/custom/netboot/compute.synclist
-
-cat /install/custom/netboot/compute.synclist
-
-lsdef -t osimage
-
-packimage centos7.9-x86_64-netboot-compute
-
- mkdef -t node cn00 groups=compute,all ip=10.10.10.3 mac=00:0c:29:98:93:43 netboot=xnba
-
-lsdef cn00
-
-chdef -t site domain=cdac.in
-
-tabdump site | grep domain
-
-makehosts
-
-vim /etc/hosts
-
-cat /etc/hosts
-
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-10.10.10.2 master master.cdac.in (xcat domain added)
-10.10.10.3 cn00 cn00.cdac.in
-
-:wq save file
-
-
-makenetworks
-
-makedhcp -n
-
-cat /etc/dhcp/dhcpd.conf
-
-makedns -n
-
-nodeset compute osimage=centos7.9-x86_64-netboot-compute
-
-chdef -t site dhcpinterfaces=ens37
-
-
-restart xcatd
-
-
-
-
-
-
-chroot /install/netboot/centos7.9/x86_64/compute/rootimg
- 
-
-mkdir test
-
-cd test
-
-vi test.txt
-
-exit
-
-ssh cn00
-
-# On second machine check file found
-
-# On master machine
-
-yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install
-
-echo /install/netboot/centos7.9/x86_64/compute/rootimg
-
-yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install vim
-
-packimage centos7.9-x86_64-netboot-compute
-
-
-
-
-# TO MAKE CLONE OF IMAGE
-
-imgaexport centos7.9-x86_64-netboot-compute
-
-ls
-
-imgimport centos7.9-x86_64-netboot-compute.tgz -f compute-bk (computer name of clone image)
-
-lsdef -t osimage
-
-lsdef cn00
-
-chdef -t provmethod=compute-bk
-
-lsdef cn00
-
+                  yum -y install yum-utils
+                  
+                  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo --no-check-certificate
+                  
+                  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xcat-dep.repo --no-check-certificate
+                  
+                  yum -y install xCAT
+                  
+                  cat /etc/profile.d/xcat.sh
+                  
+                  source /etc/profile.d/xcat.sh
+                  
+                  If you want to change master ip in tab site
+                  
+                  #chdef -t site xcat=10.10.10.3 comment
+                  
+                   lsdef -t osimage 
+                   
+                   lsblk ( If you are not able to see sr0 OS image then check
+                           then check DVD is connected or not to Vmware
+                  
+                   
+                   dd if=/dev/sr0 of=centos.iso
+                   
+                   copycds centos.iso 
+                   
+                   lsdef -t osimage
+                   
+                   OS Path ------------>/install/centos7.9/x86_64
+                  
+                   
+                   lsdef -t osimage centos7.9-x86_64-netboot-compute
+                   
+                   genimage centos7.9-x86_64-netboot-compute
+                   
+                   cd /install/netboot/centos7.9/x86_64/compute/
+                   
+                   mkdir -p /install/custom/netboot
+                   
+                   chdef -t osimage centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"
+                  
+                  lsdef -t osimage centos7.9-x86_64-netboot-compute
+                  
+                  vim /install/custom/netboot/compute.synclist
+                  
+                  cat /install/custom/netboot/compute.synclist
+                  
+                  lsdef -t osimage
+                  
+                  packimage centos7.9-x86_64-netboot-compute
+                  
+                   mkdef -t node cn00 groups=compute,all ip=10.10.10.3 mac=00:0c:29:98:93:43 netboot=xnba
+                  
+                  lsdef cn00
+                  
+                  chdef -t site domain=cdac.in
+                  
+                  tabdump site | grep domain
+                  
+                  makehosts
+                  
+                  vim /etc/hosts
+                  
+                  cat /etc/hosts
+                  
+                  127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+                  ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+                  10.10.10.2 master master.cdac.in (xcat domain added)
+                  10.10.10.3 cn00 cn00.cdac.in
+                  
+                  :wq save file
+                  
+                  
+                  makenetworks
+                  
+                  makedhcp -n
+                  
+                  cat /etc/dhcp/dhcpd.conf
+                  
+                  makedns -n
+                  
+                  nodeset compute osimage=centos7.9-x86_64-netboot-compute
+                  
+                  chdef -t site dhcpinterfaces=ens37
+                  
+                  
+                  restart xcatd
+                  
+                  
+                  
+                  
+                  
+                  
+                  chroot /install/netboot/centos7.9/x86_64/compute/rootimg
+                   
+                  
+                  mkdir test
+                  
+                  cd test
+                  
+                  vi test.txt
+                  
+                  exit
+                  
+                  ssh cn00
+                  
+                  # On second machine check file found
+                  
+                  # On master machine
+                  
+                  yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install
+                  
+                  echo /install/netboot/centos7.9/x86_64/compute/rootimg
+                  
+                  yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install vim
+                  
+                  packimage centos7.9-x86_64-netboot-compute
+                  
+                  
+                  
+                  
+                  # TO MAKE CLONE OF IMAGE
+                  
+                  imgaexport centos7.9-x86_64-netboot-compute
+                  
+                  ls
+                  
+                  imgimport centos7.9-x86_64-netboot-compute.tgz -f compute-bk (computer name of clone image)
+                  
+                  lsdef -t osimage
+                  
+                  lsdef cn00
+                  
+                  chdef -t provmethod=compute-bk
+                  
+                  lsdef cn00
+                  
 
 
 
