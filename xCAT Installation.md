@@ -1,35 +1,35 @@
 
-# xCAT Stateless installation process
-Install CentOs7 version 7.9
+         # xCAT Stateless installation process
+         Install CentOs7 version 7.9
 
-yum update -y
+         yum update -y
 
-yum upgrade -y
+         yum upgrade -y
 
-hostnamectl set-hostname xCAT
+         hostnamectl set-hostname xCAT
 
-Entry add both machine name and IP address in /etc/hosts file
+         Entry add both machine name and IP address in /etc/hosts file
 
-vi /etc/hosts
+         vi /etc/hosts
 
-   10.10.10.2 xCAT
+            10.10.10.2 xCAT
 
 
-vi /etc/selinux/config
+         vi /etc/selinux/config
 
-getenforce 
+         getenforce 
 
-init 6
+         init 6
 
-systemctl stop firewalld.service
+         systemctl stop firewalld.service
 
-systemctl disable firewalld.service
+         systemctl disable firewalld.service
 
-systemctl status firewalld.service
+         systemctl status firewalld.service
 
-yum install yum-utils
+         yum install yum-utils
 
-yum install epel-release
+         yum install epel-release
 
 yum -y install yum-utils
 
