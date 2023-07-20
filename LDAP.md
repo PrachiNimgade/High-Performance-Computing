@@ -14,10 +14,12 @@
 * systemctl start slapd
 * systemctl enable slapd
 * slappasswd (set password)
+  
 				------encrypted password is generated
 				{SSHA}dvAIVLEV+ZPxs6hw3gnfPf2kpy8WB+qj
 
   * vim chrootpw.ldif
+    
 					dn: olcDatabase={0}config,cn=config
 					    changetype:modify
 					    add: olcRootPW
@@ -27,6 +29,7 @@
 
 
 * ldapadd -Y EXTERNAL -H ldapi:/// -f chrootpw.ldif
+  
 						SASL/EXTERNAL authentication started
 						   SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 						   SASL SSF: 0
@@ -41,6 +44,7 @@
 * ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 * ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
 * ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+  
 					------we add schema in ldap which is already define
 					---and we only add those schema which is define in ldap
 * vim chdomain.ldif
@@ -146,6 +150,7 @@
 			
 
 * ldapadd -x -D cn=Manager,dc=cdac,dc=in -W -f ldapuser.ldif
+  
 					--Enter LDAP Password: 
 					adding new entry "uid=user1,ou=People,dc=cdac,dc=in"
 					
@@ -164,6 +169,7 @@
 * systemctl status nslcd
 * systemctl start nslcd
 * vim /etc/nsswitch.conf (if user is not visible the open this file edit ldap)
+  
 					passwd:     files sss ldap
 			               shadow:     files sss ldap
 			               group:      files sss ldap
@@ -171,6 +177,7 @@
 
 * If you get permission denied then
 * vim /etc/pam.d/password-auth-ac
+  
 
 					#%PAM-1.0
 					# This file is auto-generated.
