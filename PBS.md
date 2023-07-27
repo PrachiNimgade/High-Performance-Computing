@@ -402,7 +402,8 @@ Then Add Master Node
 
 * yum install openpbs-execution-23.06.06-0.x86_64.rpm -y
   
-* vim /etc/pbs.conf 
+* vim /etc/pbs.conf
+  
                             		PBS_EXEC=/opt/pbs
                             		PBS_SERVER=pbs-master
                             		PBS_START_SERVER=0
@@ -412,8 +413,10 @@ Then Add Master Node
                             		PBS_HOME=/var/spool/pbs
                             		PBS_CORE_LIMIT=unlimited
                             		PBS_SCP=/bin/scp
+  
 
-* [root@pbs-node2 rpms]# vim /var/spool/pbs/mom_priv/config 
+* [root@pbs-node2 rpms]# vim /var/spool/pbs/mom_priv/config
+  
                       				$logevent 0x1ff
                       				#$clientname pbs-node2
                       				$restrict_user_maxsysid 999
