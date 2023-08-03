@@ -1,0 +1,60 @@
+
+What does LDAP stand for?
+Answer: a) Lightweight Directory Access Protocol
+
+OpenLDAP is primarily used for:
+Answer: b) Storing and managing directory information
+
+Which port does OpenLDAP typically use?
+Answer: c) 389
+
+Which configuration file is commonly used to set up OpenLDAP?
+Answer: c) slapd.conf
+
+What type of database backend does OpenLDAP support?
+Answer: d) Various options including MDB and BDB
+
+The root DSE (Directory System Entry) in OpenLDAP provides:
+Answer: b) Details about the LDAP server's software version and capabilities
+
+Which command is used to start the OpenLDAP server?
+Answer: d) systemctl start slapd
+
+In OpenLDAP, a DIT (Directory Information Tree) represents:
+Answer: b) A hierarchical structure of directory entries
+
+What authentication mechanisms does OpenLDAP support?
+Answer: c) Various mechanisms including Simple and SASL
+
+What is LDIF used for in the context of OpenLDAP?
+Answer: c) Storing directory entries and changes
+
+Which utility is used to populate an LDAP directory with initial data from an LDIF file?
+Answer: b) ldapadd
+
+What is a "dn" in an LDAP entry?
+Answer: d) Distinguished Name
+
+OpenLDAP supports which type(s) of replication?
+Answer: c) Multi-master and provider-consumer
+
+The "cn" attribute in an LDAP entry typically stands for:
+Answer: a) Common Name
+
+What is the purpose of the OpenLDAP "slapcat" command?
+Answer: c) Export directory data to an LDIF file
+
+Which of the following is a valid LDAP URL?
+Answer: c) ldaps://ldap.mydomain.org:636/ou=people,dc=org
+
+OpenLDAP uses which backend database by default?
+Answer: d) BDB (Berkeley DB)
+
+What is the purpose of the "objectClass" attribute in an LDAP entry?
+Answer: c) It defines the attributes the entry can have
+
+Which LDAP operation is used to modify an existing entry?
+Answer: c) MODIFY
+ 
+What does SASL stand for in the context of OpenLDAP?
+Answer: d) Simple Authentication and Security Layer
