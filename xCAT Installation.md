@@ -45,57 +45,74 @@ Install CentOs7 version 7.9
                            then check DVD is connected or not to Vmware                   
 `dd if=/dev/sr0 of=centos.iso`
 
-Copy the centos.iso image (presumably CentOS installation ISO) to a directory.
+
+
+* Copy the centos.iso image (presumably CentOS installation ISO) to a directory.
+  
 `copycds centos.iso`
 
-List the defined OS image definitions.                   
+* List the defined OS image definitions.
+                     
 `lsdef -t osimage`
-                  Define the OS path for the CentOS installation. 
+
+*Define the OS path for the CentOS installation. 
                    `OS Path ------------>/install/centos7.9/x86_64`
                    
-  List the details of a specific OS image definition (centos7.9-x86_64-netboot-compute).                 
+* List the details of a specific OS image definition (centos7.9-x86_64-netboot-compute).
+                  
 `lsdef -t osimage centos7.9-x86_64-netboot-compute`
 
-Generate the image for the specified OS image definition.
+* Generate the image for the specified OS image definition.
+  
 `genimage centos7.9-x86_64-netboot-compute`
 
-Change the current directory to the location of the generated image.
+* Change the current directory to the location of the generated image.
+  
 `cd /install/netboot/centos7.9/x86_64/compute/`
 
-Create a directory for custom netboot images.
+* Create a directory for custom netboot images.
+  
 `mkdir -p /install/custom/netboot`
 
-Modify the OS image definition to include a synchronization list.
+* Modify the OS image definition to include a synchronization list.
+  
 `chdef -t osimage centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"`
 
-List the details of the modified OS image definition.
+* List the details of the modified OS image definition.
+  
 `lsdef -t osimage centos7.9-x86_64-netboot-compute`
 
-Open and edit the synchronization list file for custom netboot image.
+* Open and edit the synchronization list file for custom netboot image.
+  
 `vim /install/custom/netboot/compute.synclist`
 
-Display the contents of the synchronization list file.
+* Display the contents of the synchronization list file.
+  
 `cat /install/custom/netboot/compute.synclist`
 
-List the defined OS image definitions.
+* List the defined OS image definitions.
+  
 `lsdef -t osimage`
 
-Package the modified image.
+* Package the modified image.
+  
 `packimage centos7.9-x86_64-netboot-compute`
 
-Define a new node (cn00) with specified attributes.
+
+* Define a new node (cn00) with specified attributes.
+  
 `mkdef -t node cn00 groups=compute,all ip=10.10.10.3 mac=00:0c:29:98:93:43 netboot=xnba`
 
-List the details of the defined node (cn00).
+* List the details of the defined node (cn00).
 `lsdef cn00`
 
-Change the site definition to set the domain as cdac.in.
+* Change the site definition to set the domain as cdac.in.
 `chdef -t site domain=cdac.in`
 
-Display the domain setting in the site definition.
+* Display the domain setting in the site definition.
 `tabdump site | grep domain`
                   
-Update the hosts file with entries for the master and node.
+* Update the hosts file with entries for the master and node.
 `makehosts`
                   
 `vim /etc/hosts`
