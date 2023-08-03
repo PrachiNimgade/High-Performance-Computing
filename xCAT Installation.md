@@ -1,100 +1,106 @@
 
-         # xCAT Stateless installation process
-         Install CentOs7 version 7.9
+# xCAT Stateless installation process
+Install CentOs7 version 7.9
 
-         yum update -y
+`yum update -y`
 
-         yum upgrade -y
+`yum upgrade -y`
 
-         hostnamectl set-hostname xCAT
+`hostnamectl set-hostname xCAT`
 
          Entry add both machine name and IP address in /etc/hosts file
 
-         vi /etc/hosts
+`vi /etc/hosts`
 
             10.10.10.2 xCAT
 
+`vi /etc/selinux/config 
 
-         vi /etc/selinux/config
+`systemctl stop firewalld.service`
 
-         getenforce 
+`systemctl disable firewalld.service`
 
-         init 6
+`systemctl status firewalld.service`
 
-         systemctl stop firewalld.service
+`yum install yum-utils`
 
-         systemctl disable firewalld.service
+`yum install epel-release`
 
-         systemctl status firewalld.service
-
-         yum install yum-utils
-
-         yum install epel-release
-
-                  yum -y install yum-utils
+`yum -y install yum-utils`
                   
-                  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo --no-check-certificate
+`wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/latest/xcat-core/xcat-core.repo --no-check-certificate`                  
+`wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xcat-dep.repo --no-check-certificate`
                   
-                  wget -P /etc/yum.repos.d https://xcat.org/files/xcat/repos/yum/xcat-dep/rh7/x86_64/xcat-dep.repo --no-check-certificate
+`yum -y install xCAT`
                   
-                  yum -y install xCAT
+`cat /etc/profile.d/xcat.sh`
                   
-                  cat /etc/profile.d/xcat.sh
-                  
-                  source /etc/profile.d/xcat.sh
+`source /etc/profile.d/xcat.sh`
                   
                   If you want to change master ip in tab site
-                  
-                  #chdef -t site xcat=10.10.10.3 comment
-                  
-                   lsdef -t osimage 
+ `#chdef -t site xcat=10.10.10.3 comment`                  
+`lsdef -t osimage`
                    
-                   lsblk ( If you are not able to see sr0 OS image then check
-                           then check DVD is connected or not to Vmware
-                  
+`lsblk` ( If you are not able to see sr0 OS image then check
+                           then check DVD is connected or not to Vmware                   
+`dd if=/dev/sr0 of=centos.iso`
+
+Copy the centos.iso image (presumably CentOS installation ISO) to a directory.
+`copycds centos.iso`
+
+List the defined OS image definitions.                   
+`lsdef -t osimage`
+                  Define the OS path for the CentOS installation. 
+                   `OS Path ------------>/install/centos7.9/x86_64`
                    
-                   dd if=/dev/sr0 of=centos.iso
-                   
-                   copycds centos.iso 
-                   
-                   lsdef -t osimage
-                   
-                   OS Path ------------>/install/centos7.9/x86_64
+  List the details of a specific OS image definition (centos7.9-x86_64-netboot-compute).                 
+`lsdef -t osimage centos7.9-x86_64-netboot-compute`
+
+Generate the image for the specified OS image definition.
+`genimage centos7.9-x86_64-netboot-compute`
+
+Change the current directory to the location of the generated image.
+`cd /install/netboot/centos7.9/x86_64/compute/`
+
+Create a directory for custom netboot images.
+`mkdir -p /install/custom/netboot`
+
+Modify the OS image definition to include a synchronization list.
+`chdef -t osimage centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"`
+
+List the details of the modified OS image definition.
+`lsdef -t osimage centos7.9-x86_64-netboot-compute`
+
+Open and edit the synchronization list file for custom netboot image.
+`vim /install/custom/netboot/compute.synclist`
+
+Display the contents of the synchronization list file.
+`cat /install/custom/netboot/compute.synclist`
+
+List the defined OS image definitions.
+`lsdef -t osimage`
+
+Package the modified image.
+`packimage centos7.9-x86_64-netboot-compute`
+
+Define a new node (cn00) with specified attributes.
+`mkdef -t node cn00 groups=compute,all ip=10.10.10.3 mac=00:0c:29:98:93:43 netboot=xnba`
+
+List the details of the defined node (cn00).
+`lsdef cn00`
+
+Change the site definition to set the domain as cdac.in.
+`chdef -t site domain=cdac.in`
+
+Display the domain setting in the site definition.
+`tabdump site | grep domain`
                   
-                   
-                   lsdef -t osimage centos7.9-x86_64-netboot-compute
-                   
-                   genimage centos7.9-x86_64-netboot-compute
-                   
-                   cd /install/netboot/centos7.9/x86_64/compute/
-                   
-                   mkdir -p /install/custom/netboot
-                   
-                   chdef -t osimage centos7.9-x86_64-netboot-compute synclists="/install/custom/netboot/compute.synclist"
+Update the hosts file with entries for the master and node.
+`makehosts`
                   
-                  lsdef -t osimage centos7.9-x86_64-netboot-compute
+`vim /etc/hosts`
                   
-                  vim /install/custom/netboot/compute.synclist
-                  
-                  cat /install/custom/netboot/compute.synclist
-                  
-                  lsdef -t osimage
-                  
-                  packimage centos7.9-x86_64-netboot-compute
-                  
-                   mkdef -t node cn00 groups=compute,all ip=10.10.10.3 mac=00:0c:29:98:93:43 netboot=xnba
-                  
-                  lsdef cn00
-                  
-                  chdef -t site domain=cdac.in
-                  
-                  tabdump site | grep domain
-                  
-                  makehosts
-                  
-                  vim /etc/hosts
-                  
-                  cat /etc/hosts
+`cat /etc/hosts`
                   
                   127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
                   ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
@@ -103,77 +109,67 @@
                   
                   :wq save file
                   
-                  
-                  makenetworks
-                  
-                  makedhcp -n
-                  
-                  cat /etc/dhcp/dhcpd.conf
-                  
-                  makedns -n
-                  
-                  nodeset compute osimage=centos7.9-x86_64-netboot-compute
-                  
-                  chdef -t site dhcpinterfaces=ens37
-                  
-                  
-                  restart xcatd
-                  
-                  
-                  
-                  
-                  
-                  
-                  chroot /install/netboot/centos7.9/x86_64/compute/rootimg
+Run the makenetworks command.                
+`makenetworks`
+
+Generate DHCP configuration.
+`makedhcp -n`
+
+Display the contents of the DHCP configuration file.
+`cat /etc/dhcp/dhcpd.conf`
+
+Generate DNS configuration.
+`makedns -n`
+
+Set the OS image for the compute node(s) to centos7.9-x86_64-netboot-compute.
+`nodeset compute osimage=centos7.9-x86_64-netboot-compute`
+
+Change the site definition to specify the DHCP interface.
+ `chdef -t site dhcpinterfaces=ens37`
+
+Restart the xCAT management daemon (xcatd).
+`restart xcatd`
+
+Enter a chroot environment for the specified root image.                  
+`chroot /install/netboot/centos7.9/x86_64/compute/rootimg`
                    
+`mkdir test`      
+`cd test`
+`vi test.txt`     
+`exit`                  
+`ssh cn00`
                   
-                  mkdir test
+# On second machine check file found
                   
-                  cd test
+# On master machine
                   
-                  vi test.txt
+`yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install`
                   
-                  exit
+`echo /install/netboot/centos7.9/x86_64/compute/rootimg`
                   
-                  ssh cn00
+`yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install vim`
                   
-                  # On second machine check file found
-                  
-                  # On master machine
-                  
-                  yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install
-                  
-                  echo /install/netboot/centos7.9/x86_64/compute/rootimg
-                  
-                  yum --installroot=/install/netboot/centos7.9/x86_64/compute/rootimg install vim
-                  
-                  packimage centos7.9-x86_64-netboot-compute
+`packimage centos7.9-x86_64-netboot-compute`
                   
                   
                   
                   
-                  # TO MAKE CLONE OF IMAGE
+# TO MAKE CLONE OF IMAGE
                   
-                  imgaexport centos7.9-x86_64-netboot-compute
+`imgaexport centos7.9-x86_64-netboot-compute`
                   
-                  ls
+`ls`
                   
-                  imgimport centos7.9-x86_64-netboot-compute.tgz -f compute-bk (computer name of clone image)
+`imgimport centos7.9-x86_64-netboot-compute.tgz -f compute-bk` (computer name of clone image)
                   
-                  lsdef -t osimage
+`lsdef -t osimage`
                   
-                  lsdef cn00
-                  
-                  chdef -t provmethod=compute-bk
-                  
-                  lsdef cn00
-                  
+`lsdef cn00`
 
-
-
-
-
-
+`chdef -t provmethod=compute-bk`
+                  
+`lsdef cn00`
+                  
 
 Transaction Summary
 =============================================================================================================================================================================================
